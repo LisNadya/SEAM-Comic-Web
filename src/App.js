@@ -3,12 +3,13 @@ import {BrowserRouter as Router,Switch,Route,Link} from "react-router-dom";
 
 import Home from "./component/home";
 import TitleList from "./component/titleList";
-
+import ComicDetails from "./component/comicDetails";
 export default function App() {
     return (
       <Router>
           <Route path="/" exact component={Home}></Route>
           <Route path="/list-title" exact component={TitleList}></Route>
+          <Route path="/comic-details" exact component={ComicDetails}></Route>
       </Router>
     );
 }

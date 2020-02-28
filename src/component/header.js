@@ -17,12 +17,12 @@ export default class Header extends React.Component {
                             <div class="box" id="box1"></div>
                             <div class="box" id="box2"></div>
                             <div class="box" id="box3"></div>
-                            On9Comic
+                            <h1>On9Comic</h1>
                         </a>
                     </div>
                     <div class="collapse navbar-collapse" id="myNavbar">
                         <ul class="nav navbar-nav navbar-right">
-                            <li class="active"><a href="/">Home</a></li>
+                            <li><a href="/">Home</a></li>
                             <li><a href="list-title" >List of Titles</a></li>
                         </ul>
                     </div>
@@ -30,8 +30,8 @@ export default class Header extends React.Component {
                 <div class="container-fluid sub">
                     <div class="searchContainer">
                         <form class="form-inline my-2 my-lg-0">
-                            <input class="form-control mr-sm-2 searchBar" type="search" placeholder="Search" aria-label="Search"></input>
-                            <button class="btn btn-outline-success my-2 my-sm-0 searchBtn" type="submit"><span class="glyphicon glyphicon-search"></span></button>
+                            <input class="searchBar" type="search" placeholder="Search" aria-label="Search"></input>
+                            <button class="btn searchBtn" type="submit"><span class="glyphicon glyphicon-search"></span></button>
                         </form>
                     </div>
                 </div>

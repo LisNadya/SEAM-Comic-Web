@@ -67,8 +67,8 @@ export default class TitleList extends React.Component {
                                     <option val="">Released most recent</option>
                                 </select>
                             </div>
-                            <button type="reset" class="btn btn-default">Reset</button>
-                            <button type="submit" class="btn btn-default">Submit</button>
+                            <button type="reset" class="btn btn-default">Default</button>
+                            <button type="submit" class="btn btn-default">Sort</button>
                         </form>
                     </div>
                     <div class="filterBox">
@@ -107,8 +107,8 @@ export default class TitleList extends React.Component {
                                     <option val="">Completed</option>
                                 </select>
                             </div>
-                            <button type="reset" class="btn btn-default">Reset</button>
-                            <button type="submit" class="btn btn-default">Submit</button>
+                            <button type="reset" class="btn btn-default">Default</button>
+                            <button type="submit" class="btn btn-default">Filter</button>
                         </form>
                     </div>
                 </div>
