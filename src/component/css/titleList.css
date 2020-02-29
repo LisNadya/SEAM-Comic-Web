@@ -1,0 +1,80 @@
+.main{
+  margin-top:100px;
+}
+
+.main a{
+  text-decoration:none;
+}
+.main h3{
+  text-transform:uppercase;
+}
+
+.img-responsive{
+  padding:10px;
+  background:#f9f9f9;
+  border:1px solid #e1e1e1;
+}
+
+.comicTitle{
+  font-size:18px;
+  font-weight:bold;
+  margin-top:10px;
+  color:#dd745d;
+  transition:0.5s;
+}
+
+.comicTitle:hover{
+  color:#a55543;
+  letter-spacing:1px;
+}
+
+.comicChapter{
+  font-size:13px;
+}
+
+#filterContainer{
+  padding-right:20px;
+}
+
+.filterBox{
+  position:relative;
+  padding:30px 20px 20px 20px;
+  margin-bottom:20px;
+  background:#f9f9f9;
+  border:1px solid #e1e1e1;
+  border-top:5px solid #fb8b73;
+}
+
+.filterBox .title{
+  position:absolute;
+  top:-15px;
+  left:20px;
+  background:#fb8b73;
+  color:white;
+  padding:5px;
+}
+
+#filterContainer .form-control{
+  border:none;
+  border-radius:0px;
+  background:transparent;
+  box-shadow: inset 0px 0px 0px 0px transparent;
+  border-bottom:2px solid #fb8b73;
+}
+
+#filterContainer .titleCase{
+  background:#ecebeb;
+  padding:10px;
+}
+
+#filterContainer .btn-default{
+  background: #fb8b73;
+  color: #fff;
+  border:none;
+  margin-right:10px;
+  transition:0.5s;
+}
+
+#filterContainer .btn-default:hover{
+  background: #b96654;
+}

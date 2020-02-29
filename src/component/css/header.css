@@ -1,0 +1,105 @@
+/*Header*/
+.navbar {
+    margin-bottom: 0;
+    border-radius: 0;
+}
+
+.navbar h1{
+    display:inline;
+    color:white;
+    font-size:18px;
+    letter-spacing:1px;
+    font-weight:normal;
+
+}
+
+.nav a{
+    transition:0.5s;
+}
+
+.topHeader{
+    position:fixed;
+    z-index:999;
+    width:100%;
+    border:none;
+    
+}
+
+.box{
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    margin-left:10px;
+}
+
+#box1{
+    background: #b46251;
+}
+
+#box2{
+    background: #fb8b73;
+}
+
+#box3{
+    background: #c4c4c4;
+    margin-right:20px;
+}
+.sub{
+    padding:5px 0;
+    background:#fb8b73;
+}
+
+.searchContainer{
+    margin:auto;
+    width:50%;
+}
+
+.searchBar::placeholder,.searchBar:focus{
+    color:white;
+    outline:none;
+}
+
+.searchBar{
+    border-radius:10px 0 0 10px;
+    border:none;
+    width:93%;
+    background:#dd745d;
+    padding:7px;
+}
+
+.searchBtn{
+    border-radius:0 10px 10px 0;
+    margin-left:-5px;
+    margin-top:-5px;
+    width:7.5%;
+    background:#c66651;
+    color:white;
+    transition:0.5s;
+}
+
+.searchBtn:hover{
+    color:rgb(26, 26, 26);
+}
+
+
+/*Banner*/
+#myCarousel{
+    top:94px;
+    height:200px;
+}
+
+#myCarousel img{
+    height:200px;
+}
+
+.carousel-inner img {
+    width: 100%; 
+    margin: auto;
+}
+
+@media (max-width: 600px) { 
+    /* Hide the carousel text when the screen is less than 600 pixels wide */
+    .carousel-caption {
+        display: none; 
+    }
+}
