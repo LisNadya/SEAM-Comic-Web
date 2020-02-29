@@ -3,7 +3,7 @@ import Header from "./header";
 import "./css/comicDetails.css";
 
 export default class ComicDetails extends React.Component {
-    constructor(props) {
+    constructor(props) { //holds data to be parsed into the page
         super(props);
         this.state = {
             poster: "https://www.idwpublishing.com/wp-content/uploads/2018/10/aHR0cDovL3d3dy5uZXdzYXJhbWEuY29tL2ltYWdlcy9pLzAwMC8yNDAvNzQ0L29yaWdpbmFsL1NwaWRlcm1hbjAxX2N2ckEuanBn.jpeg",
@@ -23,20 +23,22 @@ export default class ComicDetails extends React.Component {
                     <div class="col-sm-8">
                         <div class="row">
                             <div class="col-sm-4">
-                                <img src="https://www.idwpublishing.com/wp-content/uploads/2018/10/aHR0cDovL3d3dy5uZXdzYXJhbWEuY29tL2ltYWdlcy9pLzAwMC8yNDAvNzQ0L29yaWdpbmFsL1NwaWRlcm1hbjAxX2N2ckEuanBn.jpeg" id="poster" class="img-responsive" alt="Image"></img>
+                                <img src={this.state.poster} id="poster" class="img-responsive" alt="Image"></img>
                             </div>
                             <div class="col-sm-8" id="description"> 
                                 <div class="row">
-                                    <p class="title">{this.state.title}</p>
+                                    <p class="title">
+                                        {this.state.title}
+                                    </p>
                                     <p class="author"><b>Author(s):</b>
-                                    {this.state.author.map(item => (
-                                        <span key={item}> {item} </span> 
-                                    ))}
+                                        {this.state.author.map(item => (
+                                            <span key={item}> {item} </span> 
+                                        ))}
                                     </p>    
                                 </div>
                                 <div class="row" id="genreContainer">
                                     {this.state.genre.map(item => (
-                                         <p key={item} class="genre">{item}</p>
+                                        <p key={item} class="genre">{item}</p>
                                     ))}
                                 </div>
                             </div>
@@ -47,9 +49,11 @@ export default class ComicDetails extends React.Component {
                     </div>
                     <div class="col-sm-4" id="chapterContainer">
                         <h4>Chapter List</h4>
-                        <div class="row" id="chapterBox">
+                        <div class="row" id="chapterBox"> 
                             {this.state.chapter.map((chapter) =>
-                                <a key={chapter.id} href={chapter.link} class="chapter">{chapter.title} <span>{chapter.date}</span></a>
+                                <a key={chapter.id} href={chapter.link} class="chapter">
+                                    {chapter.title}<span>{chapter.date}</span>
+                                </a>
                             )}
                         </div>
                     </div>

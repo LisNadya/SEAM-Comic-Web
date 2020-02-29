@@ -4,7 +4,7 @@ import Banner from "./banner";
 import "./css/titleList.css";
 
 export default class Home extends React.Component {
-    constructor(props) {
+    constructor(props) { //holds data to be parsed into the page
         super(props);
         this.state = {
             poster: "https://placehold.it/150x80?text=IMAGE",
@@ -13,7 +13,7 @@ export default class Home extends React.Component {
             chapter: "XXX"
         };
     }
-    createComic = () => {
+    createComic = () => { //creates the list of comics to be shown in the page
         let comic = []
         for (let j = 0; j < 10; j++) { 
             comic.push(
@@ -34,7 +34,7 @@ export default class Home extends React.Component {
             <div class="main container-fluid text-left">    
                 <h3>Latest comics releases</h3><br></br>
                 <div class="row">
-                    {this.createComic()}
+                    {this.createComic()} 
                 </div>
             </div>
         </div>);

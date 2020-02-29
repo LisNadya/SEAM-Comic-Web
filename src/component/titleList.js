@@ -4,7 +4,7 @@ import Banner from "./banner";
 import "./css/titleList.css";
 
 export default class TitleList extends React.Component {
-    constructor(props) {
+    constructor(props) { //holds data to be parsed into the page
         super(props);
         this.state = {
             poster: "https://placehold.it/150x80?text=IMAGE",
@@ -13,7 +13,7 @@ export default class TitleList extends React.Component {
             chapter: "XXX"
         };
     }
-    createComic = () => {
+    createComic = () => { //creates the list of comics to be shown in the page
         let comic = []
         for (let j = 0; j < 5; j++) {
             comic.push(<div class="col-sm-4"><img src={this.state.poster} class="img-responsive" style={{width:"100%"}} alt="Image"></img>
@@ -22,7 +22,7 @@ export default class TitleList extends React.Component {
         }
         return comic
     }
-    createTitleCaseList = (charA,charZ) => {
+    createTitleCaseList = (charA,charZ) => { //creates the alphabet list in the filter system
         let a = []
         let i = charA.charCodeAt(0)
         let j = charZ.charCodeAt(0)
