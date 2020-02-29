@@ -2,6 +2,37 @@ import React from 'react';
 import "./css/header.css";
 
 export default class Banner extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            banner: [{img: "https://placehold.it/1200x400?text=IMAGE", header: "Catch the latest comic releases"},
+                    {img: "https://placehold.it/1200x400?text=Another Image Maybe", header: "Don't forget to visit daily!"}
+                    ]
+        };
+    }
+    createBanner = () => {
+        let list = []
+        this.state.banner.map((banner, i) =>
+        {
+            if (i==0) {
+                list.push(<div class="item active">
+                    <img src={banner.img} alt='Image'></img>
+                    <div class='carousel-caption'>
+                    <h3>{banner.header}</h3>
+                    </div>
+                </div>)
+            }
+            list.push(<div class="item">
+                <img src={banner.img} alt='Image'></img>
+                <div class='carousel-caption'>
+                <h3>{banner.header}</h3>
+                </div>
+            </div>)
+        }
+        )
+        return list
+
+    }
     render() {
         return(<div id="myCarousel" class="carousel slide" data-ride="carousel">
             <ol class="carousel-indicators">
@@ -10,19 +41,7 @@ export default class Banner extends React.Component {
             </ol>
 
             <div class="carousel-inner" role="listbox">
-            <div class="item active">
-                <img src="https://placehold.it/1200x400?text=IMAGE" alt="Image"></img>
-                <div class="carousel-caption">
-                <h3>Catch the latest comic releases</h3>
-                </div>      
-            </div>
-
-            <div class="item">
-                <img src="https://placehold.it/1200x400?text=Another Image Maybe" alt="Image"></img>
-                <div class="carousel-caption">
-                    <h3>Don't forget to visit daily!</h3>
-                </div>      
-            </div>
+                {this.createBanner()}
             </div>
             <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
                 <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>

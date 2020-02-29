@@ -4,116 +4,93 @@ import Banner from "./banner";
 import "./css/titleList.css";
 
 export default class TitleList extends React.Component {
-  render() {
-    return (
-    <div>
-        <Header/>
-        <Banner/>
-        
-        <div class="main container-fluid text-left">    
-            <h3>List of Comic Titles</h3><br/>
-            <div class="row">
-                <div class="col-sm-8">
-                    <div class="col-sm-4">
-                        <img src="https://placehold.it/150x80?text=IMAGE" class="img-responsive" style={{width:"100%"}} alt="Image"></img>
-                        <a href="#" class="comicTitle">Comic Title</a>
-                        <p class="comicChapter">Ch.XXX</p>
+    constructor(props) {
+        super(props);
+        this.state = {
+            poster: "https://placehold.it/150x80?text=IMAGE",
+            link: "/comic-details",
+            title: "Comic Title",
+            chapter: "XXX"
+        };
+    }
+    createComic = () => {
+        let comic = []
+        for (let j = 0; j < 5; j++) {
+            comic.push(<div class="col-sm-4"><img src={this.state.poster} class="img-responsive" style={{width:"100%"}} alt="Image"></img>
+            <a href={this.state.link} class="comicTitle">{this.state.title}</a>
+            <p class="comicChapter">Ch.{this.state.chapter}</p></div>)
+        }
+        return comic
+    }
+    createTitleCaseList = (charA,charZ) => {
+        let a = []
+        let i = charA.charCodeAt(0)
+        let j = charZ.charCodeAt(0)
+        a.push(<label class="radio-inline"><input type="radio" name="titlecase" checked/>All</label>);
+        a.push(<label class="radio-inline"><input type="radio" name="titlecase"/>#</label>);
+        for (; i <= j; ++i) {
+            a.push(<label class="radio-inline"><input type="radio" name="titlecase"/>{String.fromCharCode(i).toUpperCase()}</label>);
+        }
+        return a;
+    }
+    render() {
+        return (
+        <div>
+            <Header/>
+            <Banner/>
+            
+            <div class="main container-fluid text-left">    
+                <h3>List of Comic Titles</h3><br/>
+                <div class="row">
+                    <div class="col-sm-8">
+                        {this.createComic()}
                     </div>
-                    <div class="col-sm-4"> 
-                        <img src="https://placehold.it/150x80?text=IMAGE" class="img-responsive" style={{width:"100%"}} alt="Image"></img>
-                        <a href="#" class="comicTitle">Comic Title</a>
-                        <p class="comicChapter">Ch.XXX</p>    
-                    </div>
-                    <div class="col-sm-4"> 
-                        <img src="https://placehold.it/150x80?text=IMAGE" class="img-responsive" style={{width:"100%"}} alt="Image"></img>
-                        <a href="#" class="comicTitle">Comic Title</a>
-                        <p class="comicChapter">Ch.XXX</p>  
-                    </div>
-                    <div class="col-sm-4"> 
-                        <img src="https://placehold.it/150x80?text=IMAGE" class="img-responsive" style={{width:"100%"}} alt="Image"></img>
-                        <a href="#" class="comicTitle">Comic Title</a>
-                        <p class="comicChapter">Ch.XXX</p>    
-                    </div>
-                    <div class="col-sm-4">
-                        <img src="https://placehold.it/150x80?text=IMAGE" class="img-responsive" style={{width:"100%"}} alt="Image"></img>
-                        <a href="#" class="comicTitle">Comic Title</a>
-                        <p class="comicChapter">Ch.XXX</p>
-                    </div>
-                    <div class="col-sm-4"> 
-                        <img src="https://placehold.it/150x80?text=IMAGE" class="img-responsive" style={{width:"100%"}} alt="Image"></img>
-                        <a href="#" class="comicTitle">Comic Title</a>
-                        <p class="comicChapter">Ch.XXX</p>    
-                    </div>
-                    <div class="col-sm-4"> 
-                        <img src="https://placehold.it/150x80?text=IMAGE" class="img-responsive" style={{width:"100%"}} alt="Image"></img>
-                        <a href="#" class="comicTitle">Comic Title</a>
-                        <p class="comicChapter">Ch.XXX</p>  
-                    </div>
-                    <div class="col-sm-4"> 
-                        <img src="https://placehold.it/150x80?text=IMAGE" class="img-responsive" style={{width:"100%"}} alt="Image"></img>
-                        <a href="#" class="comicTitle">Comic Title</a>
-                        <p class="comicChapter">Ch.XXX</p>    
-                    </div>
-                </div>
-                <div class="col-sm-4" id="filterContainer">
-                    <div class="filterBox">
-                        <div class="title">Sort By</div>
-                        <form action="/action_page.php">
-                            <div class="form-group">
-                                <label for="sel1">Sort by:</label>
-                                <select class="form-control" id="sel1">
-                                    <option val="">Alphabetical order</option>
-                                    <option val="">Latest update</option>
-                                    <option val="">Released most recent</option>
-                                </select>
-                            </div>
-                            <button type="reset" class="btn btn-default">Default</button>
-                            <button type="submit" class="btn btn-default">Sort</button>
-                        </form>
-                    </div>
-                    <div class="filterBox">
-                        <div class="title">Filter By</div>
-                        <form action="/action_page.php">
-                            <div class="form-group titleCase">
-                                <center>
-                                    <label class="radio-inline"><input type="radio" name="titlecase" checked/>All</label>
-                                    <label class="radio-inline"><input type="radio" name="titlecase"/>#</label>
-                                    <label class="radio-inline"><input type="radio" name="titlecase"/>A</label>
-                                    <label class="radio-inline"><input type="radio" name="titlecase"/>B</label>
-                                    <label class="radio-inline"><input type="radio" name="titlecase"/>C</label>
-                                    <label class="radio-inline"><input type="radio" name="titlecase"/>D</label>
-                                    <label class="radio-inline"><input type="radio" name="titlecase"/>E</label>
-                                    <label class="radio-inline"><input type="radio" name="titlecase"/>F</label>
-                                    <label class="radio-inline"><input type="radio" name="titlecase"/>G</label>
-                                    <label class="radio-inline"><input type="radio" name="titlecase"/>H</label>
-                                    <label class="radio-inline"><input type="radio" name="titlecase"/>I</label>
-                                    <label class="radio-inline"><input type="radio" name="titlecase"/>J</label>
-                                    <label class="radio-inline"><input type="radio" name="titlecase"/>K</label>
-                                    <label class="radio-inline"><input type="radio" name="titlecase"/>L</label>
-                                </center>
-                            </div>
-                            <div class="form-group">
-                                <label for="sel1">Genre:</label>
-                                <select class="form-control" id="sel1">
-                                    <option val="">Action</option>
-                                    <option val="">Comedy</option>
-                                    <option val="">Mystery</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="sel1">Status:</label>
-                                <select class="form-control" id="sel1">
-                                    <option val="">Ongoing</option>
-                                    <option val="">Completed</option>
-                                </select>
-                            </div>
-                            <button type="reset" class="btn btn-default">Default</button>
-                            <button type="submit" class="btn btn-default">Filter</button>
-                        </form>
+                    <div class="col-sm-4" id="filterContainer">
+                        <div class="filterBox">
+                            <div class="title">Sort By</div>
+                            <form action="/">
+                                <div class="form-group">
+                                    <label for="sel1">Sort by:</label>
+                                    <select class="form-control" id="sel1">
+                                        <option val="">Alphabetical order</option>
+                                        <option val="">Latest update</option>
+                                        <option val="">Released most recent</option>
+                                    </select>
+                                </div>
+                                <button type="reset" class="btn btn-default">Default</button>
+                                <button type="submit" class="btn btn-default">Sort</button>
+                            </form>
+                        </div>
+                        <div class="filterBox">
+                            <div class="title">Filter By</div>
+                            <form action="/">
+                                <div class="form-group titleCase">
+                                    <center>
+                                        {this.createTitleCaseList('a','z')}
+                                    </center>
+                                </div>
+                                <div class="form-group">
+                                    <label for="sel1">Genre:</label>
+                                    <select class="form-control" id="sel1">
+                                        <option val="">Action</option>
+                                        <option val="">Comedy</option>
+                                        <option val="">Mystery</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="sel1">Status:</label>
+                                    <select class="form-control" id="sel1">
+                                        <option val="">Ongoing</option>
+                                        <option val="">Completed</option>
+                                    </select>
+                                </div>
+                                <button type="reset" class="btn btn-default">Default</button>
+                                <button type="submit" class="btn btn-default">Filter</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>);
-  }
+        </div>);
+    }
 }
