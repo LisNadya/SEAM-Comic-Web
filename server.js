@@ -3,10 +3,11 @@ const app = express();
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const mongoose = require('mongoose');
-const bannerRoutes = express.Router();
+const on9comic = express.Router();
 const PORT = 4000;
 
 let Banner = require('./src/models/banner.model');
+let Comic = require('./src/models/comic.model');
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -18,9 +19,9 @@ const connection = mongoose.connection;
 connection.once('open', function() {
     console.log("MongoDB database connection established successfully");
 })
-
+//Banner update//
 //Gets all banner json data
-bannerRoutes.route('/').get(function(req, res) {
+on9comic.route('/banner').get(function(req, res) {
     Banner.find(function(err, banners) {
         if (err) {
             console.log(err);
@@ -31,7 +32,7 @@ bannerRoutes.route('/').get(function(req, res) {
 });
 
 //Gets banner id
-bannerRoutes.route('/:id').get(function(req, res) {
+on9comic.route('/banner/:id').get(function(req, res) {
     let id = req.params.id;
     Banner.findById(id, function(err, banner){
         res.json(banner);
@@ -39,7 +40,7 @@ bannerRoutes.route('/:id').get(function(req, res) {
 });
 
 //Banner update
-bannerRoutes.route('/update/:id').post(function(req, res) {
+on9comic.route('/banner/update/:id').post(function(req, res) {
     Banner.findById(req.params.id, function(err, banner) {
         if (!banner)
             res.status(404).send("data is not found");
@@ -59,7 +60,7 @@ bannerRoutes.route('/update/:id').post(function(req, res) {
 });
 
 //Add banner
-bannerRoutes.route('/add').post(function(req,res){
+on9comic.route('/banner/add').post(function(req,res){
     let banner = new Banner(req.body);
     banner.save()
         .then(banner => {
@@ -69,8 +70,31 @@ bannerRoutes.route('/add').post(function(req,res){
             res.status(400).send('adding new banner failed');
         });
 });
+/////
+//Comic Update//
+on9comic.route('/comic').get(function(req, res) {
+    Comic.find(function(err, comics) {
+        if (err) {
+            console.log(err);
+        } else {
+            res.json(comics);
+        }
+    });
+});
+on9comic.route('/comic/add').post(function(req,res){
+    let comic = new Comic(req.body);
+    comic.save()
+        .then(comic => {
+            res.status(200).json({'comic': 'comic added successfully'});
+        })
+        .catch(err =>{
+            res.status(400).send('adding new comic failed');
+        });
+});
 
-app.use('/on9comics', bannerRoutes);
+//
+
+app.use('/on9comics', on9comic);
 app.listen(PORT, function() {
     console.log("Server is running on Port: " + PORT);
 });

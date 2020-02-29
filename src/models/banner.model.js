@@ -7,4 +7,5 @@ let Banner = new Schema({
     }
 });
 
+
 module.exports = mongoose.model('Banner', Banner);

@@ -1,6 +1,7 @@
 import React from 'react';
 import Header from "./header";
 import "./css/comicDetails.css";
+import axios from 'axios';
 
 export default class ComicDetails extends React.Component {
     constructor(props) { //holds data to be parsed into the page
@@ -14,6 +15,19 @@ export default class ComicDetails extends React.Component {
             summary:"This is the summary"
         };
     }
+
+    // componentDidMount() {
+    //     axios.get('http://localhost:4000/on9comics/comic')
+    //         .then(response => {
+    //             this.setState({ comic: response.data });
+    //             // console.log(this.state);
+    //             // console.log(this.state.banner[0].banner_filepath);
+    //         })
+    //         .catch(function (error) {
+    //             console.log(error);
+    //         })
+    // }
+
     render() {
         return (
         <div>

@@ -16,7 +16,7 @@ export default class TitleList extends React.Component {
     createComic = () => { //creates the list of comics to be shown in the page
         let comic = []
         for (let j = 0; j < 5; j++) {
-            comic.push(<div class="col-sm-4"><img src={this.state.poster} class="img-responsive" style={{width:"100%"}} alt="Image"></img>
+            comic.push(<div class="col-sm-3"><img src={this.state.poster} class="img-responsive" style={{width:"100%"}} alt="Image"></img>
             <a href={this.state.link} class="comicTitle">{this.state.title}</a>
             <p class="comicChapter">Ch.{this.state.chapter}</p></div>)
         }
