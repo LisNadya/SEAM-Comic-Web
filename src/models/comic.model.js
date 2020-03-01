@@ -9,11 +9,19 @@ let Comic = new Schema({
         type: String
     },
     author:{
-        type: String
+        type: []
     },
     genre:{
-        type: String
+        type: []
     },
+    chapters:[{
+        number:{
+            type: Number
+        },
+        date:{
+            type: Date
+        }
+    }],
     latestchapter:{
         type: Number
     },
