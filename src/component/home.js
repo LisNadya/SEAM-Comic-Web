@@ -33,10 +33,8 @@ export default class Home extends React.Component {
             comic.push(
             <div class="col-sm-2">
                 <Link to ={"/comic/" + this.state.comic[i]._id}>
-                    {/* <a href={"/comic-details" + this.state.comic[i].title}> */}
-                        <img src={this.state.comic[i].filepath} class="img-responsive" onClick={this.handleClick.bind(this.state.comic[i])} style={{width:"100%"}} alt="comic"></img>
-                    {/* </a> */}
-                    <a href={"/comic-details"} class="comicTitle">{this.state.comic[i].title}</a>
+                    <img src={this.state.comic[i].filepath} class="img-responsive" onClick={this.handleClick.bind(this.state.comic[i])} style={{width:"100%"}} alt="comic"></img>
+                    <p class="comicTitle">{this.state.comic[i].title}</p>
                     <p class="comicChapter">Ch.{this.state.comic[i].latestchapter}</p>
                 </Link>
             </div>)

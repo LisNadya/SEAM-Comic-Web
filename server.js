@@ -92,6 +92,46 @@ on9comic.route('/comic/add').post(function(req,res){
         });
 });
 
+on9comic.route('/comic/:id').get(function(req,res){
+    let id = req.params.id;
+    Comic.findById(id, function(err, comic){
+        res.json(comic);
+    })
+});
+
+on9comic.route('/comic/update/:id').post(function(req, res) {
+    Comic.findById(req.params.id, function(err, comic) {
+        if (!comic)
+            res.status(404).send("data is not found");
+        else
+            comic.file_path = req.body.file_path;
+            comic.title = req.body.title;
+            comic.author = req.body.author;
+            comic.genre = req.body.genre;
+            comic.latestchapter = req.body.latestchapter;
+            comic.summary = req.body.summary;
+
+            comic.chapters = req.body.chapters;
+            // for (let index = 0; index <req.body.chapters.length; index++) {
+            //     const element = req.body.chapters[index];
+            //     comic.chapters[index] = element;
+            // }
+            // req.body.chapters.forEach(element => {
+            //     comic.chapters = element;
+            // });
+            // comic.chapters = req.body.chapters[0];
+
+            // console.log(comic.chapters[0]);
+            comic.save().then(comic => {
+                res.json('Comic updated!');
+            })
+            .catch(err => {
+                console.log(err);
+                res.status(400).send("Update not possible");
+            });
+    });
+});
+
 //
 
 app.use('/on9comics', on9comic);

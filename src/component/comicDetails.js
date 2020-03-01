@@ -6,28 +6,90 @@ import axios from 'axios';
 export default class ComicDetails extends React.Component {
     constructor(props) { //holds data to be parsed into the page
         super(props);
+
+        this.poster = this.onChangePoster.bind(this);
+        this.title = this.onChangeTitle.bind(this);
+        this.author = this.onChangeAuthor.bind(this);
+        this.genre = this.onChangeGenre.bind(this);
+        this.chapters = this.onChangeChapter.bind(this);
+        this.summary = this.onChangeSummary.bind(this);
+        // this.sortChapters = this.sortChapters.bind(this);
+
         this.state = {
-            poster: "https://www.idwpublishing.com/wp-content/uploads/2018/10/aHR0cDovL3d3dy5uZXdzYXJhbWEuY29tL2ltYWdlcy9pLzAwMC8yNDAvNzQ0L29yaWdpbmFsL1NwaWRlcm1hbjAxX2N2ckEuanBn.jpeg",
-            title: "Comic Title",
-            author: ['Author1', 'Author2', 'Author3'],
-            genre: ['Genre1', 'Genre2', 'Genre3'],
-            chapter: [{title: 'Ch.XXX',date: '27/02/2020',link: '/'},{title: 'Ch.XXX',date: '27/02/2020',link: '/'}],
-            summary:"This is the summary"
+            poster: "",
+            title: "",
+            author: [],
+            genre: [],
+            // chapters: [{title: 'Ch.XXX',date: '27/02/2020',link: '/'},{title: 'Ch.XXX',date: '27/02/2020',link: '/'}],
+            chapters: [{
+                number: 0,
+                date: Date
+            }],
+            summary:""
         };
     }
 
-    // componentDidMount() {
-    //     axios.get('http://localhost:4000/on9comics/comic')
-    //         .then(response => {
-    //             this.setState({ comic: response.data });
-    //             // console.log(this.state);
-    //             // console.log(this.state.banner[0].banner_filepath);
-    //         })
-    //         .catch(function (error) {
-    //             console.log(error);
-    //         })
-    // }
+    onChangePoster(e){
+        this.setState({
+            poster: e.target.value
+        });
+    }
+    onChangeTitle(e){
+        this.setState({
+            title: e.target.value
+        });
+    }
+    onChangeAuthor(e){
+        this.setState({
+            author: e.target.value
+        });
+    }
+    onChangeGenre(e){
+        this.setState({
+            genre: e.target.value
+        });
+    }
+    onChangeChapter(e){
+        this.setState({
+            chapters: e.target.value
+        });
+    }
+    onChangeSummary(e){
+        this.setState({
+            summary: e.target.value
+        });
+    }
 
+    componentDidMount() {
+        axios.get('http://localhost:4000/on9comics/comic/' + this.props.match.params.id)
+            .then(response => {
+                this.setState({ 
+                    poster: response.data.filepath,
+                    title: response.data.title,
+                    author: [response.data.author],
+                    genre: [response.data.genre],
+                    summary: response.data.summary,
+                    chapters: response.data.chapters
+                    
+                
+                });
+                // this.sortChapters();
+                // console.log(this.state.chapters);
+                // console.log(this.state);
+                // console.log(this.state.banner[0].banner_filepath);
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+            // console.log(this.props.match.params)
+            
+    }
+    // sortChapters(){
+    //     this.setState(prevState =>{
+    //         this.state.chapters.sort((a,b) => b.number - a.number);
+    //     });
+    //     // this.state.chapters.sort((a,b) => b.number - a.number);
+    // }
     render() {
         return (
         <div>
@@ -37,16 +99,17 @@ export default class ComicDetails extends React.Component {
                     <div class="col-sm-8">
                         <div class="row">
                             <div class="col-sm-4">
-                                <img src={this.state.poster} id="poster" class="img-responsive" alt="Image"></img>
+                                <img src={this.state.poster} id="poster" class="img-responsive" alt="comic"></img>
                             </div>
                             <div class="col-sm-8" id="description"> 
                                 <div class="row">
                                     <p class="title">
                                         {this.state.title}
                                     </p>
-                                    <p class="author"><b>Author(s):</b>
+                                    <p class="author">
+                                        <b>Author(s):</b>
                                         {this.state.author.map(item => (
-                                            <span key={item}> {item} </span> 
+                                            <span key={item}>  {item} </span> 
                                         ))}
                                     </p>    
                                 </div>
@@ -64,9 +127,9 @@ export default class ComicDetails extends React.Component {
                     <div class="col-sm-4" id="chapterContainer">
                         <h4>Chapter List</h4>
                         <div class="row" id="chapterBox"> 
-                            {this.state.chapter.map((chapter) =>
-                                <a key={chapter.id} href={chapter.link} class="chapter">
-                                    {chapter.title}<span>{chapter.date}</span>
+                            {this.state.chapters.map((chapter) =>
+                                <a key={chapter.id} class="chapter">
+                                    {chapter.number}<span>{chapter.date}</span>
                                 </a>
                             )}
                         </div>
