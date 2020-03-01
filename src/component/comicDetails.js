@@ -20,7 +20,6 @@ export default class ComicDetails extends React.Component {
             title: "",
             author: [],
             genre: [],
-            // chapters: [{title: 'Ch.XXX',date: '27/02/2020',link: '/'},{title: 'Ch.XXX',date: '27/02/2020',link: '/'}],
             chapters: [{
                 number: 0,
                 date: Date

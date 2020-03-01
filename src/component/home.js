@@ -20,7 +20,7 @@ export default class Home extends React.Component {
         axios.get('http://localhost:4000/on9comics/comic')
             .then(response => {
                 this.setState({ comic : response.data });
-                console.log(this.state.comic[0]._id);
+                // console.log(this.state.comic[0]._id);
                 // console.log(this.state.banner[0].banner_filepath);
             })
             .catch(function (error) {

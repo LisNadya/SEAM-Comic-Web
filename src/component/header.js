@@ -29,7 +29,7 @@ export default class Header extends React.Component {
                 </div>
                 <div class="container-fluid sub">
                     <div class="searchContainer">
-                        <form class="form-inline my-2 my-lg-0">
+                        <form class="form-inline my-2 my-lg-0" action="/list-title">
                             <input class="searchBar" type="search" placeholder="Search" aria-label="Search"></input>
                             <button class="btn searchBtn" type="submit"><span class="glyphicon glyphicon-search"></span></button>
                         </form>
