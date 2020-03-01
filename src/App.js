@@ -9,7 +9,7 @@ export default function App() {
       <Router>
           <Route path="/" exact component={Home}></Route>
           <Route path="/list-title" exact component={TitleList}></Route>
-          <Route path="/comic-details" exact component={ComicDetails}></Route>
+          <Route path="/comic/:id" exact component={ComicDetails}></Route>
       </Router>
     );
 }

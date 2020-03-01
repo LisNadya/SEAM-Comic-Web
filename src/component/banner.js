@@ -29,7 +29,6 @@ export default class Banner extends React.Component {
     createCarousell= () =>{
         let carousells = []
         for (let i = 0; i < this.state.banner.length; i++) {
-            let slideno = i.toString;
             if(i===0){
                 carousells.push(<li data-target="#myCarousel" data-slide-to = {i} class="active"></li>)
             }
