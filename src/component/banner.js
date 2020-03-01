@@ -15,7 +15,7 @@ export default class Banner extends React.Component {
         };
     }
     componentDidMount() {
-        axios.get('http://localhost:4000/on9comics/')
+        axios.get('http://localhost:4000/on9comics/banner')
             .then(response => {
                 this.setState({ banner: response.data });
                 // console.log(this.state);
@@ -29,7 +29,6 @@ export default class Banner extends React.Component {
     createCarousell= () =>{
         let carousells = []
         for (let i = 0; i < this.state.banner.length; i++) {
-            let slideno = i.toString;
             if(i===0){
                 carousells.push(<li data-target="#myCarousel" data-slide-to = {i} class="active"></li>)
             }
@@ -42,10 +41,10 @@ export default class Banner extends React.Component {
     createBanner = () => {
         let list = []
         // this.state.banner.map((banner, i) =>{
-        console.log(this.state.banner.length);
+        // console.log(this.state.banner.length);
         for (let i = 0; i < this.state.banner.length; i++) {
             const element = this.state.banner[i];
-            console.log(element);
+            // console.log(element);
             if (i === 0) {
                 list.push(
                     <div class="item active">
