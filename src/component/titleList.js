@@ -12,9 +12,12 @@ export default class TitleList extends React.Component {
     constructor(props) { //holds data to be parsed into the page
         super(props);
         this.handleChange = this.handleChange.bind(this);
+        this.callbackFunction = this.callbackFunction.bind(this);
         this.state = {
             comic : [],
-            alphabetical : 'az'
+            alphabetical : 'az',
+            case: '',
+            search: ''
         };
     }
 
@@ -37,6 +40,7 @@ export default class TitleList extends React.Component {
 
     createComic = () => { //creates the list of comics to be shown in the page
         let comic = []
+        
         for (let i = 0; i < this.state.comic.length; i++) { 
             comic.push(
                 <div class="col-sm-4">
@@ -51,17 +55,43 @@ export default class TitleList extends React.Component {
 
         return comic
     }
+    filterComic = () =>{
+        axios.get('http://localhost:4000/on9comics/comic/title/search?title='+ this.state.search)
+        .then(response => {
+            this.setState({ comic : response.data });
+        })
+        .catch(function (error) {
+            console.log(error);
+        })
+        let comic = []
+        for (let i = 0; i < this.state.comic.length; i++) { 
+            comic.push(
+                <div class="col-sm-4">
+                    <Link to ={"/comic/" + this.state.comic[i]._id}>
+                        <img src={this.state.comic[i].filepath} class="img-responsive titleListImg" onClick={this.handleClick.bind(this.state.comic[i])} style={{width:"100%"}} alt="comic"></img>
+                        <p class="comicTitle">{this.state.comic[i].title}</p>
+                        <p class="comicChapter">Ch.{this.state.comic[i].latestchapter}</p>
+                    </Link>
+                </div>
+            )
+        }
+        return comic
+    }
 
     createTitleCaseList = (charA,charZ) => { //creates the alphabet list in the filter system
         let a = []
         let i = charA.charCodeAt(0)
         let j = charZ.charCodeAt(0)
-        a.push(<label class="radio-inline"><input type="radio" name="titlecase" checked/>All</label>);
-        a.push(<label class="radio-inline"><input type="radio" name="titlecase"/>#</label>);
+        a.push(<label class="radio-inline"><input type="radio" name="titlecase" value={this.state.case}/>All</label>);
+        a.push(<label class="radio-inline"><input type="radio" name="titlecase" value={this.state.case}/>#</label>);
         for (; i <= j; ++i) {
-            a.push(<label class="radio-inline"><input type="radio" name="titlecase"/>{String.fromCharCode(i).toUpperCase()}</label>);
+            a.push(<label class="radio-inline"><input type="radio" name="titlecase" value={this.state.case}/>{String.fromCharCode(i).toUpperCase()}</label>);
         }
         return a;
+    }
+
+    callbackFunction = (searchData) =>{
+        this.setState({ search : searchData})
     }
 
     handleChange(event) {
@@ -78,28 +108,30 @@ export default class TitleList extends React.Component {
 
     render() {
         let sortedTitles;
-
+        
         if (this.state.alphabetical === "az") {
             console.log("sort");
             sortedTitles = this.state.comic.sort((a, b) =>
               a.title > b.title ? 1 : -1
             );
-          } else {
+          } 
+        else {
             sortedTitles = this.state.comic.sort((a, b) =>
-              a.title < b.title ? 1 : -1
+                a.title < b.title ? 1 : -1
             );
-          }
-
+        }
+        console.log("Recevied search: " + this.state.search);
         return (
+            
         <div>
-            <Header/>
+            <Header searchCallBack = {this.callbackFunction}/>
             <Banner/>
             
             <div class="main container-fluid text-left">    
                 <h3>List of Comic Titles</h3><br/>
                 <div class="row">
-                    <div class="col-sm-8">
-                        {this.createComic()}
+                    <div class="col-sm-8" >
+                        {this.state.search.length > 0 ? this.filterComic() : this.createComic()}
                     </div>
                     <div class="col-sm-4" id="filterContainer">
                         <div class="filterBox">
@@ -116,7 +148,7 @@ export default class TitleList extends React.Component {
                         </div>
                         <div class="filterBox">
                             <div class="title">Filter By</div>
-                            <form action="/">
+                            <form action="/list-title">
                                 <div class="form-group titleCase">
                                     <center>
                                         {this.createTitleCaseList('a','z')}

@@ -110,18 +110,8 @@ on9comic.route('/comic/update/:id').post(function(req, res) {
             comic.genre = req.body.genre;
             comic.latestchapter = req.body.latestchapter;
             comic.summary = req.body.summary;
-
             comic.chapters = req.body.chapters;
-            // for (let index = 0; index <req.body.chapters.length; index++) {
-            //     const element = req.body.chapters[index];
-            //     comic.chapters[index] = element;
-            // }
-            // req.body.chapters.forEach(element => {
-            //     comic.chapters = element;
-            // });
-            // comic.chapters = req.body.chapters[0];
 
-            // console.log(comic.chapters[0]);
             comic.save().then(comic => {
                 res.json('Comic updated!');
             })
@@ -132,6 +122,16 @@ on9comic.route('/comic/update/:id').post(function(req, res) {
     });
 });
 
+on9comic.route('/comic/title/search').get(function(req, res) { //Second level urls don't work for some reason??
+    Comic.find({"title" : {"$regex": req.query.title, "$options": "i"}}, function(err,comics){
+        if(err){
+            console.log("Cannot find title");
+        }
+        else{
+            res.status(200).json(comics)
+        }
+    })
+});
 //
 
 app.use('/on9comics', on9comic);
