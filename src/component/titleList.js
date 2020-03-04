@@ -3,6 +3,8 @@ import Header from "./header";
 import Banner from "./banner";
 import "./css/titleList.css";
 import axios from 'axios';
+import querySearch from "stringquery";
+
 
 import {BrowserRouter as Route, Link } from "react-router-dom";
 
@@ -13,16 +15,20 @@ export default class TitleList extends React.Component {
         super(props);
         this.handleChange = this.handleChange.bind(this);
         this.callbackFunction = this.callbackFunction.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
         this.state = {
             comic : [],
             alphabetical : 'az',
             case: '',
-            search: ''
+            search: '',
+            filter: false,
+            genre: '',
+            status: ''
         };
     }
 
     
-    componentDidMount() {
+    getAllTitles() {
         axios.get('http://localhost:4000/on9comics/comic')
             .then(response => {
                 this.setState({ comic : response.data });
@@ -37,9 +43,8 @@ export default class TitleList extends React.Component {
         // console.log(e.currentTarget);
     }
 
-
     createComic = () => { //creates the list of comics to be shown in the page
-        let comic = []
+        let comic = [];
         
         for (let i = 0; i < this.state.comic.length; i++) { 
             comic.push(
@@ -55,7 +60,7 @@ export default class TitleList extends React.Component {
 
         return comic
     }
-    filterComic = () =>{
+    searchComic = () =>{
         axios.get('http://localhost:4000/on9comics/comic/title/search?title='+ this.state.search)
         .then(response => {
             this.setState({ comic : response.data });
@@ -63,19 +68,16 @@ export default class TitleList extends React.Component {
         .catch(function (error) {
             console.log(error);
         })
-        let comic = []
-        for (let i = 0; i < this.state.comic.length; i++) { 
-            comic.push(
-                <div class="col-sm-4">
-                    <Link to ={"/comic/" + this.state.comic[i]._id}>
-                        <img src={this.state.comic[i].filepath} class="img-responsive titleListImg" onClick={this.handleClick.bind(this.state.comic[i])} style={{width:"100%"}} alt="comic"></img>
-                        <p class="comicTitle">{this.state.comic[i].title}</p>
-                        <p class="comicChapter">Ch.{this.state.comic[i].latestchapter}</p>
-                    </Link>
-                </div>
-            )
-        }
-        return comic
+    }
+
+    filterSystem = () =>{
+        axios.get('http://localhost:4000/on9comics/comic/title/filter?genre='+ this.state.genre + '&status='+this.state.status)
+        .then(response => {
+            this.setState({ comic : response.data });
+        })
+        .catch(function (error) {
+            console.log(error);
+        })
     }
 
     createTitleCaseList = (charA,charZ) => { //creates the alphabet list in the filter system
@@ -101,14 +103,30 @@ export default class TitleList extends React.Component {
         
         console.log(value)
 
-        this.setState({
-            alphabetical : value }
-    );
+        this.setState({alphabetical : value});
+    }
+
+    handleSubmit = () => {
+        this.state.filter = true;
+        this.state.genre = document.getElementById("genre").value;
+        this.state.status = document.getElementById("status").value;
+    };
+
+    getGenre(){
+        var query = querySearch(this.props.location.search);
+
+        query.genre != null ? this.state.genre=query.genre : this.state.genre='';
+        query.status != null ? this.state.status=query.status : this.state.status='';
+
+        return query.genre;
+    }
+
+    genreChange = (event) => {
+        this.setState({genre: event.target.value});
     }
 
     render() {
-        let sortedTitles;
-        
+        let sortedTitles;        
         if (this.state.alphabetical === "az") {
             console.log("sort");
             sortedTitles = this.state.comic.sort((a, b) =>
@@ -120,7 +138,7 @@ export default class TitleList extends React.Component {
                 a.title < b.title ? 1 : -1
             );
         }
-        console.log("Recevied search: " + this.state.search);
+        console.log("Received search: " + this.state.search);
         return (
             
         <div>
@@ -131,24 +149,25 @@ export default class TitleList extends React.Component {
                 <h3>List of Comic Titles</h3><br/>
                 <div class="row">
                     <div class="col-sm-8" >
-                        {this.state.search.length > 0 ? this.filterComic() : this.createComic()}
+                        {//this.state.search.length > 0 ? this.searchComic() : this.createComic()
+                         this.getGenre() == null ? this.getAllTitles() : this.filterSystem() 
+                        }
+                        {this.createComic()}
                     </div>
                     <div class="col-sm-4" id="filterContainer">
                         <div class="filterBox">
                             <div class="title">Sort By</div>
                                 <div class="form-group">
                                     <label for="sel1">Sort by:</label>
-                                    <select value={this.state.sort} onChange={this.handleChange} class="form-control" id="sel1">
+                                    <select onChange={this.handleChange} class="form-control" id="sel1">
                                         <option selected value="az">Sort A-Z</option>
                                         <option value="za">Sort Z-A</option>
-                                        {/* <option selected val="">Latest update</option>
-                                        <option val="">Released most recent</option> */}
                                     </select>
                                 </div>
                         </div>
                         <div class="filterBox">
                             <div class="title">Filter By</div>
-                            <form action="/list-title">
+                            <form action="/list-title" onSubmit={this.handleSubmit}>
                                 <div class="form-group titleCase">
                                     <center>
                                         {this.createTitleCaseList('a','z')}
@@ -156,19 +175,21 @@ export default class TitleList extends React.Component {
                                 </div>
                                 <div class="form-group">
                                     <label for="sel1">Genre:</label>
-                                    <select class="form-control" id="sel1">
-                                        <option val="">Action</option>
-                                        <option val="">Comedy</option>
-                                        <option val="">Mystery</option>
+                                    <select onChange={this.genreChange} class="form-control" name="genre" id="genre">
+                                        <option selected value="Action">Action</option>
+                                        <option value="Adventure">Adventure</option>
+                                        <option value="Comedy">Comedy</option>
+                                        <option value="Superhero">Superhero</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
                                     <label for="sel1">Status:</label>
-                                    <select class="form-control" id="sel1">
-                                        <option val="">Ongoing</option>
-                                        <option val="">Completed</option>
+                                    <select class="form-control" name="status" id="status">
+                                        <option val="Ongoing">Ongoing</option>
+                                        <option val="Completed">Completed</option>
                                     </select>
                                 </div>
+                                
                                 <button type="reset" class="btn btn-default">Default</button>
                                 <button type="submit" class="btn btn-default">Filter</button>
                             </form>

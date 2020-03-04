@@ -1,9 +1,7 @@
 import React from 'react';
 import "./css/header.css";
 
-import { BrowserRouter as Route, Link, Redirect } from "react-router-dom";
-import axios from 'axios';
-import TitleList from "./titleList"
+import { BrowserRouter as Link } from "react-router-dom";
 
 export default class Header extends React.Component {
     constructor(props) { //holds data to be parsed into the page
@@ -12,7 +10,6 @@ export default class Header extends React.Component {
         this.state = {
             results : [],
             search: this.props.search,
-           
         };
         // this.props.searchCallBack(this.state.search);
     }

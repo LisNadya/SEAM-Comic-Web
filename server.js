@@ -134,6 +134,21 @@ on9comic.route('/comic/title/search').get(function(req, res) { //Second level ur
 });
 //
 
+//Filter by Genre
+on9comic.route('/comic/title/filter').get(function(req, res) { 
+    Comic.find({$and: [
+            {"genre" : req.query.genre, "status" : req.query.status}
+        ]}, function(err,comics){
+        if(err){
+            console.log("Cannot find comic");
+        }
+        else{
+            res.status(200).json(comics)
+        }
+    })
+});
+
+
 app.use('/on9comics', on9comic);
 app.listen(PORT, function() {
     console.log("Server is running on Port: " + PORT);

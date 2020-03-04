@@ -27,6 +27,9 @@ let Comic = new Schema({
     },
     summary:{
         type: String
+    },
+    status:{
+        type: String
     }
 });
 
