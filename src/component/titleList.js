@@ -15,7 +15,6 @@ export default class TitleList extends React.Component {
         super(props);
         this.handleChange = this.handleChange.bind(this);
         this.callbackFunction = this.callbackFunction.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
         this.state = {
             comic : [],
             alphabetical : 'az',
@@ -23,7 +22,8 @@ export default class TitleList extends React.Component {
             search: '',
             filter: false,
             genre: '',
-            status: ''
+            status: '',
+            alphabet: ''
         };
     }
 
@@ -71,7 +71,7 @@ export default class TitleList extends React.Component {
     }
 
     filterSystem = () =>{
-        axios.get('http://localhost:4000/on9comics/comic/title/filter?genre='+ this.state.genre + '&status='+this.state.status)
+        axios.get('http://localhost:4000/on9comics/comic/title/filter?genre='+ this.state.genre + '&status='+this.state.status + '&title='+this.state.alphabet)
         .then(response => {
             this.setState({ comic : response.data });
         })
@@ -84,10 +84,8 @@ export default class TitleList extends React.Component {
         let a = []
         let i = charA.charCodeAt(0)
         let j = charZ.charCodeAt(0)
-        a.push(<label class="radio-inline"><input type="radio" name="titlecase" value={this.state.case}/>All</label>);
-        a.push(<label class="radio-inline"><input type="radio" name="titlecase" value={this.state.case}/>#</label>);
         for (; i <= j; ++i) {
-            a.push(<label class="radio-inline"><input type="radio" name="titlecase" value={this.state.case}/>{String.fromCharCode(i).toUpperCase()}</label>);
+            a.push(<label class="radio-inline"><input type="radio" name="alphabet" value={String.fromCharCode(i).toUpperCase()}/>{String.fromCharCode(i).toUpperCase()}</label>);
         }
         return a;
     }
@@ -106,23 +104,21 @@ export default class TitleList extends React.Component {
         this.setState({alphabetical : value});
     }
 
-    handleSubmit = () => {
-        this.state.filter = true;
-        this.state.genre = document.getElementById("genre").value;
-        this.state.status = document.getElementById("status").value;
-    };
-
     getGenre(){
         var query = querySearch(this.props.location.search);
 
-        query.genre != null ? this.state.genre=query.genre : this.state.genre='';
-        query.status != null ? this.state.status=query.status : this.state.status='';
-
+        if(query.genre != null && query.status != null && query.alphabet != null){
+            this.state.filter=true; 
+            this.state.genre=query.genre; 
+            this.state.status=query.status; 
+            this.state.alphabet=query.alphabet;
+        }
+        else{
+            this.state.genre=''; 
+            this.state.status=''; 
+            this.state.alphabet='';
+        }
         return query.genre;
-    }
-
-    genreChange = (event) => {
-        this.setState({genre: event.target.value});
     }
 
     render() {
@@ -167,7 +163,7 @@ export default class TitleList extends React.Component {
                         </div>
                         <div class="filterBox">
                             <div class="title">Filter By</div>
-                            <form action="/list-title" onSubmit={this.handleSubmit}>
+                            <form action="/list-title">
                                 <div class="form-group titleCase">
                                     <center>
                                         {this.createTitleCaseList('a','z')}
@@ -175,7 +171,7 @@ export default class TitleList extends React.Component {
                                 </div>
                                 <div class="form-group">
                                     <label for="sel1">Genre:</label>
-                                    <select onChange={this.genreChange} class="form-control" name="genre" id="genre">
+                                    <select class="form-control" name="genre">
                                         <option selected value="Action">Action</option>
                                         <option value="Adventure">Adventure</option>
                                         <option value="Comedy">Comedy</option>
@@ -184,7 +180,7 @@ export default class TitleList extends React.Component {
                                 </div>
                                 <div class="form-group">
                                     <label for="sel1">Status:</label>
-                                    <select class="form-control" name="status" id="status">
+                                    <select class="form-control" name="status">
                                         <option val="Ongoing">Ongoing</option>
                                         <option val="Completed">Completed</option>
                                     </select>

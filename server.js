@@ -137,7 +137,7 @@ on9comic.route('/comic/title/search').get(function(req, res) { //Second level ur
 //Filter by Genre
 on9comic.route('/comic/title/filter').get(function(req, res) { 
     Comic.find({$and: [
-            {"genre" : req.query.genre, "status" : req.query.status}
+            {"genre" : req.query.genre, "status" : req.query.status, "title":{"$regex": "^"+req.query.title[0], "$options": "i"}}
         ]}, function(err,comics){
         if(err){
             console.log("Cannot find comic");
