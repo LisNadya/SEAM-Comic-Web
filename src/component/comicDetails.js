@@ -1,8 +1,9 @@
 import React from 'react';
+import dateFormat from 'dateformat';
 import Header from "./header";
 import "./css/comicDetails.css";
 import axios from 'axios';
-
+import moment from 'moment';
 export default class ComicDetails extends React.Component {
     constructor(props) { //holds data to be parsed into the page
         super(props);
@@ -65,30 +66,16 @@ export default class ComicDetails extends React.Component {
                 this.setState({ 
                     poster: response.data.filepath,
                     title: response.data.title,
-                    author: [response.data.author],
-                    genre: [response.data.genre],
+                    author: response.data.author,
+                    genre: response.data.genre,
                     summary: response.data.summary,
                     chapters: response.data.chapters
-                    
-                
                 });
-                // this.sortChapters();
-                // console.log(this.state.chapters);
-                // console.log(this.state);
-                // console.log(this.state.banner[0].banner_filepath);
             })
             .catch(function (error) {
                 console.log(error);
             })
-            // console.log(this.props.match.params)
-            
     }
-    // sortChapters(){
-    //     this.setState(prevState =>{
-    //         this.state.chapters.sort((a,b) => b.number - a.number);
-    //     });
-    //     // this.state.chapters.sort((a,b) => b.number - a.number);
-    // }
     render() {
         return (
         <div>
@@ -108,8 +95,9 @@ export default class ComicDetails extends React.Component {
                                     <p class="author">
                                         <b>Author(s):</b>
                                         {this.state.author.map(item => (
-                                            <span key={item}>  {item} </span> 
-                                        ))}
+                                        <span class="authorName">{item}</span>
+                                    ))}
+                                       
                                     </p>    
                                 </div>
                                 <div class="row" id="genreContainer">
@@ -128,7 +116,7 @@ export default class ComicDetails extends React.Component {
                         <div class="row" id="chapterBox"> 
                             {this.state.chapters.map((chapter) =>
                                 <a key={chapter.id} class="chapter">
-                                    {chapter.number}<span>{chapter.date}</span>
+                                    {chapter.number}<span>{moment(chapter.date).format('DD-MM-YYYY')}</span>
                                 </a>
                             )}
                         </div>

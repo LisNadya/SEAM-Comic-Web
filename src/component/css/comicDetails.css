@@ -87,3 +87,7 @@ a,a:hover{
 #chapterBox .chapter:hover{
     background:#b8b8b8;
 }
+
+.authorName{
+    margin:0 5px;
+}

@@ -84,6 +84,7 @@ export default class TitleList extends React.Component {
         let a = []
         let i = charA.charCodeAt(0)
         let j = charZ.charCodeAt(0)
+        a.push(<label class="radio-inline"><input type="radio" name="alphabet" value="a" checked/>A</label>);
         for (; i <= j; ++i) {
             a.push(<label class="radio-inline"><input type="radio" name="alphabet" value={String.fromCharCode(i).toUpperCase()}/>{String.fromCharCode(i).toUpperCase()}</label>);
         }
@@ -104,21 +105,41 @@ export default class TitleList extends React.Component {
         this.setState({alphabetical : value});
     }
 
-    getGenre(){
+    getParam(){
         var query = querySearch(this.props.location.search);
 
-        if(query.genre != null && query.status != null && query.alphabet != null){
+        if(query.search!=null){
+            this.state.search=query.search;
+        }
+        else if(query.genre != null && query.status != null && query.alphabet != null){
             this.state.filter=true; 
             this.state.genre=query.genre; 
             this.state.status=query.status; 
             this.state.alphabet=query.alphabet;
         }
         else{
+            this.state.search = '';
             this.state.genre=''; 
             this.state.status=''; 
             this.state.alphabet='';
         }
-        return query.genre;
+
+        return query;
+    }
+
+    getComics(){
+        var query =  this.getParam();
+
+        if(query.search!=null){
+            this.searchComic();
+        }
+        else if(this.state.filter==true){
+            this.filterSystem();
+            console.log("FILTER SYSTEM IS WORKING");
+        }
+        else{
+            this.getAllTitles();
+        }
     }
 
     render() {
@@ -145,9 +166,7 @@ export default class TitleList extends React.Component {
                 <h3>List of Comic Titles</h3><br/>
                 <div class="row">
                     <div class="col-sm-8" >
-                        {//this.state.search.length > 0 ? this.searchComic() : this.createComic()
-                         this.getGenre() == null ? this.getAllTitles() : this.filterSystem() 
-                        }
+                        {this.getComics()}
                         {this.createComic()}
                     </div>
                     <div class="col-sm-4" id="filterContainer">
@@ -166,7 +185,7 @@ export default class TitleList extends React.Component {
                             <form action="/list-title">
                                 <div class="form-group titleCase">
                                     <center>
-                                        {this.createTitleCaseList('a','z')}
+                                        {this.createTitleCaseList('b','z')}
                                     </center>
                                 </div>
                                 <div class="form-group">

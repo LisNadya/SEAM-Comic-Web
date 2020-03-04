@@ -20,10 +20,6 @@ export default class Header extends React.Component {
         });
     }
     
-    sendData(e){
-        this.props.searchCallBack(this.state.search);
-    }
-
     render() {
         return (
             <nav id="header" class="navbar navbar-inverse topHeader">
@@ -51,13 +47,9 @@ export default class Header extends React.Component {
                 </div>
                 <div class="container-fluid sub">
                     <div class="searchContainer">
-                        <form class="form-inline my-2 my-lg-0">
-                                <input class="searchBar" type="search" value={this.state.search} onChange={this.onChangeSearch} placeholder="Search" aria-label="Search"></input>
-                                <Link to={{pathname: '/list-title', search: this.state.search, state: { search : this.props.search}}}>
-                                    {/* {console.log(this.state.search)} */}
-                                    {/* <TitleList search = {this.state.search} /> */}
-                                    <button onClick ={() => this.sendData(this.state.search)} class="btn searchBtn" type="submit"><span class="glyphicon glyphicon-search"></span></button>
-                                </Link>
+                        <form class="form-inline my-2 my-lg-0" action="list-title">
+                                <input class="searchBar" name="search" type="search" value={this.state.search} onChange={this.onChangeSearch} placeholder="Search" aria-label="Search"></input>
+                               <button class="btn searchBtn" type="submit"><span class="glyphicon glyphicon-search"></span></button>
                         </form>
                     </div>
                 </div>
